@@ -1,0 +1,74 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+plugins {
+
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version "1.6.10"
+    id 'org.jetbrains.kotlin.plugin.jpa' version '1.8.20'
+    id("org.springframework.boot") version "2.6.6"
+    id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id 'org.jetbrains.kotlin.plugin.spring' version "1.6.10"
+
+}
+
+group 'ar.edu.unq.eperdemic'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 11
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.9.2'
+//    testImplementation 'org.mockito:mockito-core:4.8.1'
+    testImplementation group: 'io.kotlintest', name: 'kotlintest-runner-junit5', version: '3.4.2'
+
+
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.33'
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-aop")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("javax.validation:validation-api:2.0.1.Final")
+
+    implementation ("org.springframework.boot:spring-boot-starter-validation")
+
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-neo4j'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    implementation group: 'com.fasterxml.jackson.module', name: 'jackson-module-kotlin'
+
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+    runtimeOnly("org.springframework.boot:spring-boot-starter-tomcat")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+
+tasks.test {
+    useJUnitPlatform()
+}
+
+tasks.withType(KotlinCompile) {
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"] // Utiliza un arreglo en lugar de listOf()
+        jvmTarget = "1.8"
+    }
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "11"
+}
+
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "11"
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+}
